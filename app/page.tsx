@@ -1,20 +1,24 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
+  const linkClass = "block border-b px-4 py-3";
+  function linkTag(href: string, text: string) {
+    return <li className=""><Link href={href} className={linkClass}>{text}</Link></li>
+  }
+
   return (
     <main>
-      <p>Home</p>
-      <ul>
-        <li><Link href="english-to-doremi">English to Doremi</Link></li>
-        <li><Link href="doremi-to-english">Doremi to English</Link></li>
-        <li><Link href="">3th</Link></li>
-        <li><Link href="">5th</Link></li>
-        <li><Link href="">7th</Link></li>
-        <li><Link href="doremi-of-staff-g-clef">Doremi of Staff(G clef)</Link></li>
-        <li><Link href="doremi-of-staff-f-clef">Doremi of Staff(F clef)</Link></li>
-        <li><Link href="english-of-staff-g-clef">English of Staff(G clef)</Link></li>
-        <li><Link href="english-of-staff-f-clef">English of Staff(F clef)</Link></li>
+      <h1 className="text-center text-xl py-2">音階を覚えるページ</h1>
+      <ul className="mt-8 px-4">
+        {linkTag("english-to-doremi", "英語→ドレミ")}
+        {linkTag("doremi-to-english", "ドレミ→英語")}
+        {linkTag("", "3th")}
+        {linkTag("", "5th")}
+        {linkTag("", "7th")}
+        {linkTag("doremi-of-staff-g-clef", "五線譜→ドレミ（ト音記号）")}
+        {linkTag("doremi-of-staff-f-clef", "五線譜→ドレミ（ヘ音記号）")}
+        {linkTag("english-of-staff-g-clef", "五線譜→英語（ト音記号）")}
+        {linkTag("english-of-staff-f-clef", "五線譜→英語（ヘ音記号）")}
       </ul>
     </main>
     /*
