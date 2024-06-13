@@ -23,12 +23,14 @@ export default function Quiz({ questions }: QuestionsProps) {
   const [index, setIndex] = useState(getRandomInt(0, questionsCount));
   const [judgment, setJudgment] = useState("");
   const [isAnswered, setIsAnswered] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
   const currentQuestion = questions[index];
 
   async function onSubmit(event: any) {
     event.preventDefault();
     const value = event.target.answer.value;
     const correctAnswer = currentQuestion.solution;
+    setIsCorrect(value === correctAnswer);
     setJudgment(value === correctAnswer ? "〇正解" : `×不正解（答：${correctAnswer}）`);
     setIsAnswered(true);
   }
@@ -46,12 +48,21 @@ export default function Quiz({ questions }: QuestionsProps) {
   return (
     <main>
       <Link href="/">TOP</Link>
-      {currentQuestion.questionImage}
+      <div className="p-4 flex justify-center">
+        {currentQuestion.questionImage}
+      </div>
       {currentQuestion.question
-        && <p className="text-2xl">{currentQuestion.question}</p>
+        && <p className="text-center font-bold text-6xl py-20">{currentQuestion.question}</p>
       }
-      <form onSubmit={onSubmit}>
-        <select name="answer" disabled={isAnswered}>
+      <form
+        onSubmit={onSubmit}
+        className="flex justify-center"
+      >
+        <select
+          name="answer"
+          disabled={isAnswered}
+          className="block bg-white border border-gray-400 pl-2 py-2 rounded shadow focus:outline-none focus:shadow-outline mr-4"
+        >
           {
             getSelectOptions().map(o => {
               return (
@@ -60,13 +71,20 @@ export default function Quiz({ questions }: QuestionsProps) {
             })
           }
         </select>
-        <button type="submit" disabled={isAnswered}>Answer</button>
+        <button
+          type="submit"
+          disabled={isAnswered}
+          className="bg-blue-500 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400"
+        >Answer</button>
       </form>
       {isAnswered &&
-        <>
-          <p>{judgment}</p>
-          <button onClick={toNext}>Next</button>
-        </>
+        <div className="flex flex-col items-center mt-12">
+          <p className={`text-2xl ${isCorrect ? "text-red-600" : "text-blue-600" }`}>{judgment}</p>
+          <button
+            onClick={toNext}
+            className="bg-blue-400 text-white py-1 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400 mt-12"
+          >Next</button>
+        </div>
       }
     </main>
   );
