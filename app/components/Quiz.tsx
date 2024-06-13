@@ -5,42 +5,57 @@ import Link from "next/link";
 
 type QuestionsProps = {
   questions: {
-    question: string,
+    question?: string,
+    questionImage?: JSX.Element,
     solution: string
   }[]
 };
 
 export default function Quiz({ questions }: QuestionsProps) {
-  function getRandomInt(max: number) {
-    return Math.floor(Math.random() * max);
+  // min <= n < max
+  function getRandomInt(min: number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min);
   }
 
-  const [index, setIndex] = useState(getRandomInt(questions.length));
+  const questionsCount = questions.length;
+  const [index, setIndex] = useState(getRandomInt(0, questionsCount));
   const [judgment, setJudgment] = useState("");
   const [isAnswered, setIsAnswered] = useState(false);
+  const currentQuestion = questions[index];
 
   async function onSubmit(event: any) {
     event.preventDefault();
     const value = event.target.answer.value;
-    setJudgment(value === questions[index].solution ? "〇正解" : `×不正解（答：${questions[index].solution}）`);
+    const correctAnswer = currentQuestion.solution;
+    setJudgment(value === correctAnswer ? "〇正解" : `×不正解（答：${correctAnswer}）`);
     setIsAnswered(true);
   }
 
   function toNext() {
     setIsAnswered(false);
-    setIndex(getRandomInt(questions.length));
+    setIndex((index + getRandomInt(1, questionsCount)) % questionsCount);
+  }
+
+  function getSelectOptions () {
+    const solutions = questions.map(q => q.solution);
+    return Array.from(new Set(solutions));
   }
 
   return (
     <main>
       <Link href="/">TOP</Link>
-      <p className="text-2xl">{questions[index].question}</p>
+      {currentQuestion.questionImage}
+      {currentQuestion.question
+        && <p className="text-2xl">{currentQuestion.question}</p>
+      }
       <form onSubmit={onSubmit}>
         <select name="answer" disabled={isAnswered}>
           {
-            questions.map(q => {
+            getSelectOptions().map(o => {
               return (
-                <option key={q.solution} value={q.solution}>{q.solution}</option>
+                <option key={o} value={o}>{o}</option>
               )
             })
           }

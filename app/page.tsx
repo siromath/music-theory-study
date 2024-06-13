@@ -11,10 +11,10 @@ export default function Home() {
         <li><Link href="">3th</Link></li>
         <li><Link href="">5th</Link></li>
         <li><Link href="">7th</Link></li>
-        <li><Link href="">Doremi of Staff(G clef)</Link></li>
-        <li><Link href="">Doremi of Staff(F clef)</Link></li>
-        <li><Link href="">English of Staff(G clef)</Link></li>
-        <li><Link href="">English of Staff(F clef)</Link></li>
+        <li><Link href="doremi-of-staff-g-clef">Doremi of Staff(G clef)</Link></li>
+        <li><Link href="doremi-of-staff-f-clef">Doremi of Staff(F clef)</Link></li>
+        <li><Link href="english-of-staff-g-clef">English of Staff(G clef)</Link></li>
+        <li><Link href="english-of-staff-f-clef">English of Staff(F clef)</Link></li>
       </ul>
     </main>
     /*
